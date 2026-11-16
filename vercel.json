@@ -1,26 +1,35 @@
 {
-  "routes": [
+  "buildCommand": "npm run build:copilot",
+  "outputDirectory": "dist-copilot",
+  "headers": [
     {
-      "src": "/react-widget-uv.iife.js",
-      "dest": "/react-widget-uv.iife.js",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
+      "source": "/(.*)",
+      "headers": [{ "key": "Referrer-Policy", "value": "no-referrer" }]
     },
     {
-      "src": "/react-widget-uv.css",
-      "dest": "/react-widget-uv.css",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
+      "source": "/copilot.html",
+      "headers": [
+        { "key": "Content-Security-Policy", "value": "frame-ancestors https://admin.shopify.com" }
+      ]
     },
     {
-      "src":"/widget-embed.html",
-      "dest": "/widget-embed.html",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate",
-        "Content-Security-Policy": "frame-ancestors *"
-      }
+      "source": "/copilot.html",
+      "has": [
+        { "type": "query", "key": "shop", "value": "(?<shop>[a-z0-9][a-z0-9-]*\\.myshopify\\.com)" }
+      ],
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors https://:shop https://admin.shopify.com"
+        }
+      ]
+    },
+    {
+      "source": "/copilot-voice.html",
+      "headers": [
+        { "key": "Content-Security-Policy", "value": "frame-ancestors 'none'" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
     }
   ]
 }
